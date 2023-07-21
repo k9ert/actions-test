@@ -1,0 +1,11 @@
+{
+  "name": "actions-test",
+  "version": "0.0.2",
+  "description": "A simple package just to test how releasing could work",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

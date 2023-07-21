@@ -1,0 +1,42 @@
+name: Create Tag
+
+on:
+  pull_request:
+    types:
+      - labeled
+
+jobs:
+  create-tag:
+    runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'pull_request' &&
+      contains(github.event.pull_request.labels.*.name, 'release candidate') &&
+      github.event.pull_request.base.ref == 'master'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Git
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+  
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'  # Use the version you need, e.g., '14.x', '12.x', etc.
+
+      - name: Get version from package.json
+        id: version
+        run: |
+          echo ::set-output name=version::$(node -p "require('./package.json').version")
+
+      - name: Create Tag
+        run: |
+          # Get the current version from the previous step
+          CURRENT_VERSION=${{ steps.version.outputs.version }}
+          # Create a new tag with the current version
+          git tag $CURRENT_VERSION
+          # Push the new tag to the repository
+          git push origin $CURRENT_VERSION
