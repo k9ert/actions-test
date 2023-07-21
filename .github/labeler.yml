@@ -1,0 +1,3 @@
+# add `app: vault` label to all PRs that touch files in the `apps/api-vault` directory
+'release candidate':
+  - release_notes/**
