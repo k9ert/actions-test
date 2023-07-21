@@ -2,6 +2,13 @@
 
 # Trigger Tag Creation
 
-Click the button below to trigger the creation of a new tag:
+In order to trigger the repo_dispatch_event of type `create-tag` do this:
 
-[![Create Tag](https://github.com/k9ert/actions-test/actions/workflows/create-tag.yml/badge.svg)](https://github.com/k9ert/actions-test/actions?query=workflow%3Acreate-tag+branch%3Amain)
+```
+export REPO_DISPATCH_TEST=ghp_wZ...
+curl -X POST \                                                    
+  -H "Authorization: token $REPO_DISPATCH_TEST" \
+  -H "Accept: application/vnd.github.v3+json" \
+  https://api.github.com/repos/k9ert/actions-test/dispatches \
+  -d '{"event_type": "create-tag"}'
+```
