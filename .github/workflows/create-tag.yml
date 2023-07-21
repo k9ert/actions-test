@@ -1,0 +1,28 @@
+name: Create Tag
+
+on:
+  repository_dispatch:
+    types: # Define the custom event type(s)
+      - create-tag
+      
+jobs:
+  create-tag:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Git
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+      - name: Create Tag
+        run: |
+          # Get the current version from your package.json, for example
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          # Create a new tag with the current version
+          git tag $CURRENT_VERSION
+          # Push the new tag to the repository
+          git push origin $CURRENT_VERSION
